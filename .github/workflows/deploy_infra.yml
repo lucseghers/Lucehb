@@ -39,8 +39,14 @@ jobs:
       id: init
       working-directory: ./infra
       run: | 
-        terraform init
+        terraform init -input=false
+      continue-on-error: false
 
+    # Verify Init
+    - name: Verify Init
+      if: failure()
+      run: echo "Terraform init failed"
+      
     # Linting
     - name: Lint Terraform
       uses: actionshub/terraform-lint@main
@@ -48,10 +54,13 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       id: fmt
+      working-directory: ./infra
       run: terraform fmt -check
 
+    # Validate Terraform
     - name: Terraform Validate
       id: validate
+      working-directory: ./infra
       run: terraform validate -no-color
 
     # Generates an execution plan for Terraform
@@ -59,6 +68,7 @@ jobs:
       working-directory: ./infra
       run: terraform plan -lock-timeout=100s -input=false -out=./tfplan
 
+    # Apply the Terraform plan
     - name: Terraform Apply
       id: apply
       working-directory: ./infra
