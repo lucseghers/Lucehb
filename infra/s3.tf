@@ -1,6 +1,10 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
+# Manage the existing S3 bucket without recreating it
 resource "aws_s3_bucket" "existing_bucket" {
   bucket = "lucseghers03"
-  acl    = "private"
 
   tags = {
     Name        = "lucseghers03"
@@ -8,6 +12,13 @@ resource "aws_s3_bucket" "existing_bucket" {
   }
 }
 
+# Define the ACL using the aws_s3_bucket_acl resource
+resource "aws_s3_bucket_acl" "existing_bucket_acl" {
+  bucket = aws_s3_bucket.existing_bucket.bucket
+  acl    = "private"
+}
+
+# Define the bucket policy
 resource "aws_s3_bucket_policy" "existing_bucket_policy" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
@@ -24,6 +35,7 @@ resource "aws_s3_bucket_policy" "existing_bucket_policy" {
   })
 }
 
+# Enable versioning for the bucket
 resource "aws_s3_bucket_versioning" "versioning" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
@@ -32,6 +44,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
+# Add lifecycle rules to the bucket
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_rule" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
