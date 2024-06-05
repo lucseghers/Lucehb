@@ -38,15 +38,14 @@ jobs:
     - name: Terraform Init
       id: init
       working-directory: ./infra
-      run: | 
-        terraform init -input=false
+      run: terraform init -input=false
       continue-on-error: false
 
     # Verify Init
     - name: Verify Init
       if: failure()
       run: echo "Terraform init failed"
-      
+
     # Linting
     - name: Lint Terraform
       uses: actionshub/terraform-lint@main
@@ -56,6 +55,12 @@ jobs:
       id: fmt
       working-directory: ./infra
       run: terraform fmt -check
+
+    # Automatically format Terraform files recursively
+    - name: Terraform Format Recursive
+      id: fmt-recursive
+      working-directory: ./infra
+      run: terraform fmt -recursive
 
     # Validate Terraform
     - name: Terraform Validate
