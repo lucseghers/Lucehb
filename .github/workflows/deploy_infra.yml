@@ -46,21 +46,21 @@ jobs:
       if: failure()
       run: echo "Terraform init failed"
 
+    # Automatically format Terraform files recursively
+    - name: Terraform Format
+      id: fmt
+      working-directory: ./infra
+      run: terraform fmt -recursive
+
     # Linting
     - name: Lint Terraform
       uses: actionshub/terraform-lint@main
 
     # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      id: fmt
+    - name: Terraform Format Check
+      id: fmt-check
       working-directory: ./infra
       run: terraform fmt -check
-
-    # Automatically format Terraform files recursively
-    - name: Terraform Format Recursive
-      id: fmt-recursive
-      working-directory: ./infra
-      run: terraform fmt -recursive
 
     # Validate Terraform
     - name: Terraform Validate
