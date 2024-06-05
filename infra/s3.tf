@@ -1,13 +1,9 @@
 
-
 # Manage the existing S3 bucket without recreating it
 resource "aws_s3_bucket" "existing_bucket" {
   bucket = "lucseghers03"
-
-  tags = {
-    Name        = "lucseghers03"
-    Environment = "Dev"
-  }
+  # Removed the deprecated acl argument
+  # Other configuration options can be included here
 }
 
 # Define the ACL using the aws_s3_bucket_acl resource
