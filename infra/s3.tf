@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "eu-west-1"
-}
-
 resource "aws_s3_bucket" "existing_bucket" {
   bucket = "lucseghers03"
   acl    = "private"
@@ -12,7 +8,6 @@ resource "aws_s3_bucket" "existing_bucket" {
   }
 }
 
-# Optionally define a bucket policy
 resource "aws_s3_bucket_policy" "existing_bucket_policy" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
@@ -29,7 +24,6 @@ resource "aws_s3_bucket_policy" "existing_bucket_policy" {
   })
 }
 
-# Optionally enable versioning for the bucket
 resource "aws_s3_bucket_versioning" "versioning" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
@@ -38,7 +32,6 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
-# Optionally add lifecycle rules to the bucket
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_rule" {
   bucket = aws_s3_bucket.existing_bucket.bucket
 
@@ -55,4 +48,3 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_rule" {
     }
   }
 }
-
