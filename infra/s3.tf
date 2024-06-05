@@ -1,6 +1,4 @@
-provider "aws" {
-  region = "us-west-2"
-}
+
 
 # Manage the existing S3 bucket without recreating it
 resource "aws_s3_bucket" "existing_bucket" {
