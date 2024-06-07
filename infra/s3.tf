@@ -1,4 +1,4 @@
 resource "aws_s3_bucket" "test-bucket" {
-  bucket = "test-bucket-mlops-course2"
+  bucket = "test-bucket-luc-chat"
 
 }
